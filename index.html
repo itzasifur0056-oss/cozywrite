@@ -1,0 +1,2858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#141013" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Cozy writer</title>
+  <link rel="icon" type="image/png" href="cozy.png" />
+  <link rel="apple-touch-icon" href="cozy.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Special+Elite&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* Default Theme: Dusty Rose (Daylight) */
+      --studio-bg: #151114;
+      --paper-bg: #ebd2de;
+      --paper-edge: #dfc0cf;
+      --ink-color: #2b1e25;
+      --ink-muted: rgba(43, 30, 37, 0.45);
+      --speckle-color: rgba(74, 46, 61, 0.16);
+      --sparkle-color: #ffffff;
+      --sparkle-glow: rgba(255, 240, 248, 0.9);
+
+      /* Roller & Carriage */
+      --rod-top: #4b4348;
+      --rod-mid: #1d181b;
+      --rod-bot: #0b090a;
+      --carriage-bg: linear-gradient(180deg, #f6e7ef 0%, #dfc2d1 55%, #c8a7b8 100%);
+      --carriage-border: rgba(255, 255, 255, 0.65);
+      --carriage-shadow: 0 10px 22px rgba(24, 10, 18, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+      --striker-bg: linear-gradient(90deg, #3c3438 0%, #7d7076 45%, #2b2428 100%);
+      --led-active: #ff8e6e;
+      --led-idle: rgba(43, 30, 37, 0.25);
+
+      /* Toolbar & Keyboard */
+      --glass-bg: rgba(255, 245, 250, 0.42);
+      --glass-border: rgba(255, 255, 255, 0.45);
+      --glass-icon: #33242c;
+      --glass-active-bg: rgba(43, 30, 37, 0.12);
+      --kb-bg: linear-gradient(180deg, rgba(232, 206, 219, 0.94) 0%, rgba(212, 181, 197, 0.98) 100%);
+      --key-bg: linear-gradient(180deg, #faf0f5 0%, #edd9e3 100%);
+      --key-fn-bg: linear-gradient(180deg, #e2c8d5 0%, #d1b2c2 100%);
+      --key-text: #2e2027;
+      --key-shadow: 0 3px 0 #b896a8, 0 5px 10px rgba(34, 15, 25, 0.18);
+      --key-active-shadow: 0 1px 0 #b896a8, 0 2px 4px rgba(34, 15, 25, 0.22);
+
+      /* Typography & Responsive Dimensions */
+      --font-typewriter: 'Courier Prime', 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --font-size: 16.5px;
+      --line-height: 1.6;
+      --paper-max-w: 100%;
+    }
+
+    /* Paper Tint Variations (Daylight) */
+    body[data-tint="cream"] {
+      --paper-bg: #f3ead8;
+      --paper-edge: #e5d8c0;
+      --ink-color: #2f2820;
+      --ink-muted: rgba(47, 40, 32, 0.45);
+      --speckle-color: rgba(88, 72, 50, 0.15);
+      --carriage-bg: linear-gradient(180deg, #fbf5ea 0%, #e7dac3 55%, #d2c1a4 100%);
+      --glass-bg: rgba(255, 250, 240, 0.48);
+      --glass-icon: #382f25;
+      --kb-bg: linear-gradient(180deg, rgba(238, 227, 207, 0.94) 0%, rgba(220, 205, 180, 0.98) 100%);
+      --key-bg: linear-gradient(180deg, #fcf8f0 0%, #efe4d0 100%);
+      --key-fn-bg: linear-gradient(180deg, #e5d6bc 0%, #d4c2a3 100%);
+      --key-text: #332a20;
+      --key-shadow: 0 3px 0 #b9a687, 0 5px 10px rgba(38, 28, 16, 0.18);
+      --key-active-shadow: 0 1px 0 #b9a687, 0 2px 4px rgba(38, 28, 16, 0.22);
+    }
+
+    body[data-tint="sage"] {
+      --paper-bg: #dae6dd;
+      --paper-edge: #c6d6ca;
+      --ink-color: #1f2d24;
+      --ink-muted: rgba(31, 45, 36, 0.45);
+      --speckle-color: rgba(42, 68, 52, 0.15);
+      --carriage-bg: linear-gradient(180deg, #eef5f0 0%, #cedfd2 55%, #b4c9b9 100%);
+      --glass-bg: rgba(242, 252, 245, 0.45);
+      --glass-icon: #223328;
+      --kb-bg: linear-gradient(180deg, rgba(212, 227, 216, 0.94) 0%, rgba(190, 209, 195, 0.98) 100%);
+      --key-bg: linear-gradient(180deg, #f4faf6 0%, #e1ede4 100%);
+      --key-fn-bg: linear-gradient(180deg, #c9dccf 0%, #b3cab9 100%);
+      --key-text: #1f2e24;
+      --key-shadow: 0 3px 0 #95b09c, 0 5px 10px rgba(18, 34, 23, 0.18);
+      --key-active-shadow: 0 1px 0 #95b09c, 0 2px 4px rgba(18, 34, 23, 0.22);
+    }
+
+    body[data-tint="lavender"] {
+      --paper-bg: #dfd8ee;
+      --paper-edge: #ccc2e0;
+      --ink-color: #251f33;
+      --ink-muted: rgba(37, 31, 51, 0.45);
+      --speckle-color: rgba(56, 44, 82, 0.15);
+      --carriage-bg: linear-gradient(180deg, #f2eefb 0%, #d4cae8 55%, #bab0d3 100%);
+      --glass-bg: rgba(246, 242, 255, 0.45);
+      --glass-icon: #292238;
+      --kb-bg: linear-gradient(180deg, rgba(218, 210, 236, 0.94) 0%, rgba(198, 188, 220, 0.98) 100%);
+      --key-bg: linear-gradient(180deg, #f7f4fd 0%, #e6dff5 100%);
+      --key-fn-bg: linear-gradient(180deg, #cfc5e5 0%, #bbb0d6 100%);
+      --key-text: #262035;
+      --key-shadow: 0 3px 0 #9e91ba, 0 5px 10px rgba(24, 18, 38, 0.18);
+      --key-active-shadow: 0 1px 0 #9e91ba, 0 2px 4px rgba(24, 18, 38, 0.22);
+    }
+
+    /* Night Desk Lamp Spotlight Mode (Normal Mood) */
+    body.night-mode {
+      --studio-bg: #0f0c0e;
+      --paper-bg: #32282d;
+      --paper-edge: #241c20;
+      --ink-color: #1c1317;
+      --ink-muted: rgba(255, 225, 236, 0.35);
+      --speckle-color: rgba(15, 10, 12, 0.28);
+      --sparkle-color: #ffdce8;
+      --sparkle-glow: rgba(255, 190, 210, 0.85);
+
+      --carriage-bg: linear-gradient(180deg, #54464d 0%, #382e33 55%, #241d21 100%);
+      --carriage-border: rgba(255, 215, 230, 0.22);
+      --carriage-shadow: 0 12px 26px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 225, 235, 0.25);
+      --striker-bg: linear-gradient(90deg, #251f22 0%, #685960 48%, #1d181a 100%);
+      --led-active: #ff9d76;
+      --led-idle: rgba(255, 220, 230, 0.2);
+
+      --glass-bg: rgba(68, 55, 62, 0.48);
+      --glass-border: rgba(255, 220, 235, 0.14);
+      --glass-icon: #e8d4dd;
+      --glass-active-bg: rgba(255, 210, 228, 0.16);
+
+      --kb-bg: linear-gradient(180deg, #1b1619 0%, #120e10 100%);
+      --key-bg: linear-gradient(180deg, #352c31 0%, #261f23 100%);
+      --key-fn-bg: linear-gradient(180deg, #282125 0%, #1d171a 100%);
+      --key-text: #ead9e1;
+      --key-shadow: 0 3px 0 #110d0f, 0 5px 12px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 230, 240, 0.1);
+      --key-active-shadow: 0 1px 0 #110d0f, 0 2px 4px rgba(0, 0, 0, 0.65);
+    }
+
+    /* Warm Cozy Mood (Candlelit Amber Tungsten Desk Lamp) */
+    body.night-mode.warm-cozy {
+      --studio-bg: #140d09;
+      --paper-bg: #3b291d;
+      --paper-edge: #2b1d14;
+      --ink-color: #21150e;
+      --ink-muted: rgba(255, 224, 186, 0.38);
+      --speckle-color: rgba(18, 10, 5, 0.3);
+      --sparkle-color: #ffe4ba;
+      --sparkle-glow: rgba(255, 190, 110, 0.92);
+
+      --carriage-bg: linear-gradient(180deg, #6b4e3b 0%, #493325 55%, #302016 100%);
+      --carriage-border: rgba(255, 218, 175, 0.28);
+      --carriage-shadow: 0 12px 26px rgba(10, 4, 0, 0.78), inset 0 1px 1px rgba(255, 225, 185, 0.28);
+      --striker-bg: linear-gradient(90deg, #2b1e16 0%, #7c5f4c 48%, #211610 100%);
+      --led-active: #ffaa56;
+      --led-idle: rgba(255, 215, 170, 0.22);
+
+      --glass-bg: rgba(78, 56, 42, 0.5);
+      --glass-border: rgba(255, 214, 170, 0.18);
+      --glass-icon: #f2dcc4;
+      --glass-active-bg: rgba(255, 198, 138, 0.18);
+
+      --kb-bg: linear-gradient(180deg, #221711 0%, #160e0a 100%);
+      --key-bg: linear-gradient(180deg, #422f24 0%, #2f2018 100%);
+      --key-fn-bg: linear-gradient(180deg, #33231a 0%, #241811 100%);
+      --key-text: #f5e2cb;
+      --key-shadow: 0 3px 0 #140c08, 0 5px 12px rgba(0, 0, 0, 0.58), inset 0 1px 0 rgba(255, 222, 184, 0.12);
+      --key-active-shadow: 0 1px 0 #140c08, 0 2px 4px rgba(0, 0, 0, 0.68);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      background-color: var(--studio-bg);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
+      color: #f3e8ed;
+      transition: background-color 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* =====================================================================
+       FIRST PAGE: COZY WRITER LANDING / WELCOME COVER
+       ===================================================================== */
+    .landing-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(ellipse 68% 52% at 50% 42%, rgba(255, 214, 232, 0.11) 0%, rgba(50, 38, 44, 0.35) 45%, transparent 78%),
+        #0f0c0e;
+      transition:
+        opacity 0.58s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.58s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .landing-screen.entering {
+      opacity: 0;
+      transform: scale(1.03);
+      pointer-events: none;
+    }
+
+    .landing-card {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+      padding: 46px 32px 42px;
+      border-radius: 36px;
+      background: linear-gradient(180deg, rgba(56, 44, 50, 0.72) 0%, rgba(34, 26, 30, 0.88) 100%);
+      border: 1px solid rgba(255, 224, 238, 0.16);
+      box-shadow:
+        0 28px 70px rgba(0, 0, 0, 0.72),
+        inset 0 1px 1px rgba(255, 235, 245, 0.22);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .landing-spotlight {
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      width: 380px;
+      height: 300px;
+      margin-left: -190px;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 35%, rgba(255, 230, 240, 0.24) 0%, rgba(255, 196, 220, 0.08) 48%, transparent 76%);
+      filter: blur(8px);
+    }
+
+    .landing-carriage-badge {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      margin-bottom: 24px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #584950 0%, #382e33 100%);
+      border: 1px solid rgba(255, 220, 235, 0.25);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+
+    .landing-carriage-badge span {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(255, 220, 235, 0.26);
+    }
+
+    .landing-carriage-badge span:first-child {
+      background: #ff9d76;
+      box-shadow: 0 0 8px #ff9d76;
+    }
+
+    .landing-title {
+      position: relative;
+      margin: 0 0 14px;
+      font-family: var(--font-typewriter);
+      font-size: clamp(30px, 6vw, 38px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #fff2f7;
+      text-shadow: 0 2px 18px rgba(255, 206, 226, 0.35);
+    }
+
+    .landing-intro {
+      position: relative;
+      margin: 0 0 32px;
+      max-width: 330px;
+      font-family: var(--font-typewriter);
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: rgba(245, 224, 233, 0.78);
+    }
+
+    .explore-btn {
+      position: relative;
+      appearance: none;
+      border: 1px solid rgba(255, 235, 245, 0.45);
+      border-radius: 999px;
+      padding: 13px 34px;
+      background: linear-gradient(180deg, #f8e8ef 0%, #e1c4d2 100%);
+      color: #261920;
+      font-family: var(--font-typewriter);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      cursor: pointer;
+      box-shadow:
+        0 4px 0 #b08f9f,
+        0 12px 26px rgba(0, 0, 0, 0.45);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.2s ease;
+    }
+
+    .explore-btn:hover {
+      filter: brightness(1.04);
+      transform: translateY(-1px);
+    }
+
+    .explore-btn:active {
+      transform: translateY(3px);
+      box-shadow:
+        0 1px 0 #b08f9f,
+        0 5px 12px rgba(0, 0, 0, 0.45);
+    }
+
+    /* =====================================================================
+       ADAPTIVE SHELL: PHONE VIEW (< 768px) -> FULL PC STUDIO SCREEN (>= 768px)
+       ===================================================================== */
+    .app-shell {
+      position: relative;
+      width: 100%;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background:
+        radial-gradient(ellipse 75% 48% at 50% 24%, rgba(255, 215, 232, 0.055) 0%, transparent 72%),
+        radial-gradient(circle at 50% 100%, rgba(0, 0, 0, 0.45) 0%, transparent 65%);
+      overflow: hidden;
+    }
+
+    /* Top Minimalist Header */
+    .top-bar {
+      position: relative;
+      flex: 0 0 auto;
+      height: 54px;
+      width: 100%;
+      padding: calc(env(safe-area-inset-top, 0px) + 6px) 16px 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 30;
+    }
+
+    .icon-btn {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: rgba(245, 232, 238, 0.82);
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.15s ease, background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.91);
+    }
+
+    .top-left-group,
+    .top-right-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 2;
+    }
+
+    .note-badge {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: rgba(245, 232, 238, 0.68);
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .note-badge:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    /* Centered Editable Title / Brand Name */
+    .top-center-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 38%;
+      z-index: 1;
+    }
+
+    .title-input {
+      appearance: none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: rgba(245, 232, 238, 0.82);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      text-align: center;
+      padding: 5px 12px;
+      border-radius: 999px;
+      width: 100%;
+      min-width: 110px;
+      max-width: 240px;
+      outline: none;
+      user-select: text;
+      cursor: text;
+      text-overflow: ellipsis;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .title-input:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+    }
+
+    .title-input:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 210, 228, 0.28);
+      color: #ffffff;
+    }
+
+    .pc-quick-new {
+      display: none;
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(245, 232, 238, 0.78);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 11px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .pc-quick-new:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .char-counter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      font-variant-numeric: tabular-nums;
+      color: rgba(245, 232, 238, 0.62);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    /* Typewriter Stage (Paper + Roller + Carriage) */
+    .stage-area {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: 180px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 6px 14px 0;
+      overflow: hidden;
+      cursor: text;
+    }
+
+    /* Curved Paper Sheet */
+    .paper-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: var(--paper-max-w);
+      height: 100%;
+      max-height: calc(100% - 14px);
+      margin: 0 auto;
+      border-radius: 34px 34px 4px 4px;
+      background-color: var(--paper-bg);
+      box-shadow:
+        0 -8px 30px rgba(0, 0, 0, 0.35),
+        inset 0 2px 3px rgba(255, 255, 255, 0.45),
+        inset 0 -16px 28px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+      transition: background-color 0.55s cubic-bezier(0.22, 1, 0.36, 1), max-width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+    }
+
+    body.night-mode .paper-wrapper {
+      box-shadow:
+        0 -10px 40px rgba(0, 0, 0, 0.75),
+        inset 0 1px 2px rgba(255, 210, 228, 0.14),
+        inset 0 -20px 34px rgba(0, 0, 0, 0.55);
+    }
+
+    /* Organic Paper Grain & Speckles */
+    .paper-speckles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.85;
+      background-image:
+        radial-gradient(var(--speckle-color) 1px, transparent 1px),
+        radial-gradient(var(--speckle-color) 0.8px, transparent 0.8px),
+        radial-gradient(rgba(255, 255, 255, 0.25) 0.7px, transparent 0.7px);
+      background-size: 37px 41px, 23px 29px, 53px 47px;
+      background-position: 0 0, 11px 17px, 29px 7px;
+      z-index: 1;
+    }
+
+    /* Volumetric Desk Lamp Spotlight Cone (Moves with Carriage!) */
+    .spotlight-cone {
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 520px;
+      height: 440px;
+      margin-left: -260px;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 2;
+      transform-origin: 50% 100%;
+      background:
+        conic-gradient(
+          from 142deg at 50% 100%,
+          transparent 0deg,
+          rgba(255, 216, 230, 0.12) 14deg,
+          rgba(255, 228, 236, 0.55) 28deg,
+          rgba(255, 240, 244, 0.86) 38deg,
+          rgba(255, 228, 236, 0.55) 48deg,
+          rgba(255, 216, 230, 0.12) 62deg,
+          transparent 76deg
+        ),
+        radial-gradient(
+          ellipse 52% 68% at 50% 88%,
+          rgba(255, 235, 240, 0.65) 0%,
+          rgba(255, 205, 222, 0.22) 48%,
+          transparent 78%
+        );
+      mix-blend-mode: screen;
+      filter: blur(5px);
+      transition: opacity 0.5s ease;
+      will-change: transform;
+    }
+
+    body.night-mode.warm-cozy .app-shell {
+      background:
+        radial-gradient(ellipse 78% 50% at 50% 24%, rgba(255, 168, 92, 0.095) 0%, transparent 72%),
+        radial-gradient(circle at 50% 100%, rgba(12, 5, 0, 0.5) 0%, transparent 65%);
+    }
+
+    body.night-mode.warm-cozy .paper-wrapper {
+      box-shadow:
+        0 -10px 42px rgba(10, 4, 0, 0.78),
+        inset 0 1px 2px rgba(255, 204, 145, 0.18),
+        inset 0 -20px 36px rgba(14, 7, 2, 0.58);
+    }
+
+    body.night-mode .spotlight-cone {
+      opacity: 1;
+    }
+
+    body.night-mode.warm-cozy .spotlight-cone {
+      background:
+        conic-gradient(
+          from 142deg at 50% 100%,
+          transparent 0deg,
+          rgba(255, 192, 118, 0.16) 14deg,
+          rgba(255, 184, 96, 0.62) 28deg,
+          rgba(255, 224, 174, 0.92) 38deg,
+          rgba(255, 184, 96, 0.62) 48deg,
+          rgba(255, 192, 118, 0.16) 62deg,
+          transparent 76deg
+        ),
+        radial-gradient(
+          ellipse 54% 70% at 50% 88%,
+          rgba(255, 214, 154, 0.74) 0%,
+          rgba(255, 166, 78, 0.28) 48%,
+          transparent 78%
+        );
+    }
+
+    /* Ambient Warm Text Glow inside Spotlight */
+    .spotlight-core {
+      position: absolute;
+      bottom: 4px;
+      left: 0;
+      width: 170px;
+      height: 110px;
+      margin-left: -85px;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 2;
+      background: radial-gradient(ellipse at 50% 95%, rgba(255, 244, 248, 0.92) 0%, rgba(255, 212, 226, 0.4) 50%, transparent 80%);
+      mix-blend-mode: screen;
+      filter: blur(4px);
+      transition: opacity 0.45s ease;
+      will-change: transform;
+    }
+
+    body.night-mode .spotlight-core {
+      opacity: 1;
+    }
+
+    body.night-mode.warm-cozy .spotlight-core {
+      background: radial-gradient(ellipse at 50% 95%, rgba(255, 232, 188, 0.96) 0%, rgba(255, 168, 78, 0.48) 50%, transparent 80%);
+    }
+
+    /* Twinkling 4-Point Sparkles Layer */
+    .sparkles-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 4;
+      transition: opacity 0.35s ease;
+    }
+
+    .sparkles-layer.hidden {
+      opacity: 0;
+    }
+
+    .sparkle-cluster {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      animation: floatSparkle 4.8s ease-in-out infinite;
+    }
+
+    .sparkle-star {
+      fill: var(--sparkle-color);
+      filter: drop-shadow(0 0 4px var(--sparkle-glow));
+      animation: twinkleStar 2.6s ease-in-out infinite;
+    }
+
+    .sparkle-star.s2 {
+      animation-delay: 0.8s;
+      opacity: 0.75;
+    }
+
+    .sparkle-star.s3 {
+      animation-delay: 1.5s;
+      opacity: 0.6;
+    }
+
+    @keyframes twinkleStar {
+      0%, 100% { transform: scale(0.82) rotate(0deg); opacity: 0.55; }
+      50% { transform: scale(1.18) rotate(8deg); opacity: 1; }
+    }
+
+    @keyframes floatSparkle {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* Paper Viewport & Scrolling Sheet Content */
+    .paper-viewport {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: 42px 34px 54px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+      z-index: 3;
+    }
+
+    .paper-viewport::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media (max-width: 400px) {
+      .paper-viewport {
+        padding: 34px 22px 48px;
+      }
+    }
+
+    .typed-content {
+      position: relative;
+      font-family: var(--font-typewriter);
+      font-size: var(--font-size);
+      line-height: var(--line-height);
+      color: var(--ink-color);
+      white-space: pre-wrap;
+      word-break: break-word;
+      letter-spacing: 0.015em;
+      min-height: 140px;
+      text-shadow: 0 0.5px 0 rgba(255, 255, 255, 0.15);
+      transition: font-size 0.25s ease, color 0.45s ease;
+    }
+
+    body.night-mode .typed-content {
+      color: rgba(245, 224, 233, 0.9);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+    }
+
+    body.night-mode.warm-cozy .typed-content {
+      color: rgba(255, 237, 212, 0.94);
+      text-shadow: 0 1px 2px rgba(20, 9, 2, 0.6);
+    }
+
+    .placeholder-hint {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: var(--ink-muted);
+      pointer-events: none;
+      font-style: italic;
+      transition: opacity 0.25s ease;
+    }
+
+    .ink-char {
+      display: inline;
+      animation: inkStamp 0.14s cubic-bezier(0.2, 0.9, 0.3, 1.1) forwards;
+    }
+
+    @keyframes inkStamp {
+      0% {
+        opacity: 0.45;
+        filter: blur(0.6px);
+      }
+      100% {
+        opacity: 1;
+        filter: blur(0);
+      }
+    }
+
+    /* Selected Text Highlight on Paper (Ctrl+A / Shift+Arrows) */
+    .selected-ink {
+      background-color: rgba(180, 82, 128, 0.24);
+      color: inherit;
+      border-radius: 3px;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+    body.night-mode .selected-ink {
+      background-color: rgba(255, 194, 220, 0.26);
+      color: #ffffff;
+    }
+
+    body.night-mode.warm-cozy .selected-ink {
+      background-color: rgba(255, 184, 94, 0.30);
+      color: #fff6e6;
+    }
+
+    /* Active Typewriter Cursor Caret */
+    .caret-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.16em;
+      background-color: var(--ink-color);
+      vertical-align: -0.18em;
+      margin-left: 1px;
+      border-radius: 1px;
+      animation: caretBlink 1.05s steps(2, start) infinite;
+    }
+
+    .caret-cursor.has-selection {
+      opacity: 0;
+      animation: none;
+    }
+
+    body.night-mode .caret-cursor {
+      background-color: #ffdce9;
+      box-shadow: 0 0 8px rgba(255, 200, 220, 0.85);
+    }
+
+    body.night-mode.warm-cozy .caret-cursor {
+      background-color: #ffd194;
+      box-shadow: 0 0 9px rgba(255, 182, 92, 0.92);
+    }
+
+    #btnLampMode.warm-active {
+      color: #ffbe73;
+      background: rgba(255, 186, 110, 0.2);
+      box-shadow: 0 0 12px rgba(255, 174, 88, 0.28);
+    }
+
+    @keyframes caretBlink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0.18; }
+    }
+
+    /* Hidden Native Input for Seamless PC & Mobile System Keyboard Typing */
+    #hiddenInput {
+      position: fixed;
+      top: -200px;
+      left: -200px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Mechanical Roller Bar & Sliding Pill Carriage Assembly */
+    .roller-assembly {
+      position: relative;
+      width: 100%;
+      max-width: calc(var(--paper-max-w) + 28px);
+      height: 36px;
+      margin-top: -12px;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      transition: max-width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Horizontal Metallic Rod */
+    .roller-rod {
+      position: relative;
+      width: 100%;
+      height: 10px;
+      border-radius: 5px;
+      background: linear-gradient(
+        180deg,
+        var(--rod-top) 0%,
+        #685e63 22%,
+        var(--rod-mid) 58%,
+        var(--rod-bot) 100%
+      );
+      box-shadow:
+        0 6px 14px rgba(0, 0, 0, 0.55),
+        0 -2px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Ribbed Cylindrical End Caps */
+    .roller-cap {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 22px;
+      height: 16px;
+      border-radius: 4px;
+      background: repeating-linear-gradient(
+        90deg,
+        #1b1619 0px,
+        #1b1619 2px,
+        #4a4045 2px,
+        #4a4045 4px
+      );
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.22);
+    }
+
+    .roller-cap.left { left: -2px; border-radius: 3px 6px 6px 3px; }
+    .roller-cap.right { right: -2px; border-radius: 6px 3px 3px 6px; }
+
+    /* Sliding Print-Head Pill Carriage */
+    .carriage-pill {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 72px;
+      height: 24px;
+      margin-left: -36px;
+      margin-top: -12px;
+      border-radius: 999px;
+      background: var(--carriage-bg);
+      border: 1px solid var(--carriage-border);
+      box-shadow: var(--carriage-shadow);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 13px;
+      gap: 4.5px;
+      will-change: transform;
+      transition: background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+    }
+
+    .carriage-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: var(--led-idle);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .carriage-dot.active {
+      background-color: var(--led-active);
+      box-shadow: 0 0 6px var(--led-active);
+    }
+
+    /* T-Shaped Metallic Typebar Striker Hammer */
+    .typebar-striker {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      width: 18px;
+      height: 18px;
+      margin-left: -9px;
+      transform-origin: 50% 100%;
+      will-change: transform;
+    }
+
+    .typebar-striker::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 4px;
+      height: 14px;
+      margin-left: -2px;
+      border-radius: 2px 2px 0 0;
+      background: var(--striker-bg);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+    }
+
+    .typebar-striker::after {
+      content: '';
+      position: absolute;
+      top: 1px;
+      left: 50%;
+      width: 14px;
+      height: 4.5px;
+      margin-left: -7px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, #8b7e84 0%, #342c30 100%);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Floating Frosted Glass Control Toolbar */
+    .toolbar-zone {
+      flex: 0 0 auto;
+      width: 100%;
+      padding: 10px 16px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 25;
+    }
+
+    .frosted-pill {
+      width: 100%;
+      max-width: 460px;
+      height: 44px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.45s ease, border-color 0.45s ease, max-width 0.4s ease;
+    }
+
+    .tool-btn {
+      position: relative;
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--glass-icon);
+      width: 36px;
+      height: 34px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: var(--font-typewriter);
+      font-size: 14px;
+      font-weight: 700;
+      transition: transform 0.14s ease, background-color 0.2s ease, color 0.35s ease;
+    }
+
+    .tool-btn:hover {
+      background: var(--glass-active-bg);
+    }
+
+    .tool-btn:active {
+      transform: scale(0.88);
+    }
+
+    .tool-btn.is-active {
+      background: var(--glass-active-bg);
+    }
+
+    .tool-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 1.85;
+    }
+
+    .status-dot-pill {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--glass-icon);
+      opacity: 0.45;
+      margin-right: 6px;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.3s ease;
+    }
+
+    .status-dot-pill.sound-on {
+      opacity: 0.9;
+      background: #ff8e6e;
+      box-shadow: 0 0 8px rgba(255, 142, 110, 0.7);
+    }
+
+    /* Cozy Tactile Keyboard Deck */
+    .keyboard-deck {
+      flex: 0 0 auto;
+      width: 100%;
+      background: var(--kb-bg);
+      padding: 10px 6px calc(env(safe-area-inset-bottom, 0px) + 12px);
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      z-index: 20;
+      transform-origin: bottom center;
+      transition:
+        max-height 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.28s ease,
+        padding 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+        background 0.45s ease;
+      max-height: 290px;
+      overflow: hidden;
+    }
+
+    .keyboard-deck.collapsed {
+      max-height: 0;
+      opacity: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      border-top-color: transparent;
+      pointer-events: none;
+    }
+
+    .kb-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5.5px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .kb-row.mobile-indent {
+      padding: 0 16px;
+    }
+
+    .keycap {
+      position: relative;
+      appearance: none;
+      border: none;
+      flex: 1 1 0;
+      max-width: 44px;
+      height: 43px;
+      border-radius: 10px;
+      background: var(--key-bg);
+      color: var(--key-text);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Rounded', 'Segoe UI', sans-serif;
+      font-size: 18px;
+      font-weight: 450;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--key-shadow);
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: transform 0.06s ease, box-shadow 0.06s ease, background 0.35s ease, color 0.35s ease;
+    }
+
+    .keycap.fn-key {
+      flex: 1.35 1 0;
+      max-width: 58px;
+      background: var(--key-fn-bg);
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+
+    .keycap.space-key {
+      flex: 5.2 1 0;
+      max-width: 240px;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: rgba(135, 118, 128, 0.6);
+    }
+
+    .keycap.return-key {
+      flex: 1.65 1 0;
+      max-width: 72px;
+      background: var(--key-fn-bg);
+      font-size: 16px;
+    }
+
+    .keycap.shift-active {
+      box-shadow: var(--key-active-shadow);
+      transform: translateY(2px);
+      outline: 1.5px solid rgba(255, 142, 110, 0.65);
+    }
+
+    .keycap.pressed,
+    .keycap:active {
+      transform: translateY(2.5px) scale(0.97);
+      box-shadow: var(--key-active-shadow);
+    }
+
+    /* =====================================================================
+       DESKTOP PC SCREEN ADAPTATION (>= 768px)
+       ===================================================================== */
+    @media (min-width: 768px) {
+      :root {
+        --paper-max-w: 820px;
+        --font-size: 18.5px;
+        --line-height: 1.66;
+      }
+
+      body.wide-paper {
+        --paper-max-w: 980px;
+      }
+
+      .landing-card {
+        max-width: 520px;
+        padding: 56px 46px 50px;
+      }
+
+      .top-bar {
+        height: 60px;
+        padding: 10px 32px;
+      }
+
+      .pc-quick-new {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .top-center-title {
+        max-width: 45%;
+      }
+
+      .title-input {
+        font-size: 13.5px;
+        max-width: 340px;
+      }
+
+      .stage-area {
+        padding: 8px 36px 0;
+      }
+
+      .paper-wrapper {
+        border-radius: 42px 42px 6px 6px;
+        max-height: calc(100% - 16px);
+      }
+
+      .paper-viewport {
+        padding: 54px 68px 64px;
+      }
+
+      .roller-assembly {
+        height: 40px;
+        margin-top: -14px;
+      }
+
+      .roller-rod {
+        height: 11px;
+      }
+
+      .roller-cap {
+        width: 26px;
+        height: 18px;
+      }
+
+      .carriage-pill {
+        width: 82px;
+        height: 26px;
+        margin-left: -41px;
+        margin-top: -13px;
+        padding-left: 15px;
+      }
+
+      .frosted-pill {
+        max-width: 520px;
+        height: 46px;
+        padding: 0 14px;
+      }
+
+      /* Desktop Mechanical Keyboard Deck */
+      .keyboard-deck {
+        padding: 12px 24px 16px;
+        gap: 6px;
+        max-height: 270px;
+        background: linear-gradient(180deg, rgba(24, 19, 22, 0.72) 0%, rgba(16, 13, 15, 0.92) 100%);
+        backdrop-filter: blur(16px);
+      }
+
+      body.night-mode.warm-cozy .keyboard-deck {
+        background: linear-gradient(180deg, rgba(34, 23, 17, 0.8) 0%, rgba(22, 14, 10, 0.95) 100%);
+      }
+
+      body:not(.night-mode) .keyboard-deck {
+        background: linear-gradient(180deg, rgba(226, 200, 213, 0.75) 0%, rgba(206, 175, 191, 0.92) 100%);
+      }
+
+      .kb-row {
+        max-width: 820px;
+        gap: 6px;
+      }
+
+      .kb-row.mobile-indent {
+        padding: 0;
+      }
+
+      .keycap {
+        max-width: 56px;
+        height: 38px;
+        border-radius: 9px;
+        font-size: 14.5px;
+      }
+
+      .keycap.fn-key {
+        flex: 1.55 1 0;
+        max-width: 84px;
+        font-size: 12.5px;
+      }
+
+      .keycap.space-key {
+        flex: 6.5 1 0;
+        max-width: 340px;
+      }
+
+      .keycap.return-key {
+        flex: 1.85 1 0;
+        max-width: 98px;
+      }
+
+      .sheet-card {
+        max-width: 520px;
+        margin-bottom: 24px;
+        border-radius: 26px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+      }
+
+      .modal-backdrop {
+        align-items: center;
+      }
+    }
+
+    /* Mobile Touch Key-Pop Preview Bubble */
+    .key-pop-bubble {
+      position: fixed;
+      pointer-events: none;
+      z-index: 100;
+      width: 48px;
+      height: 54px;
+      border-radius: 12px;
+      background: var(--key-bg);
+      color: var(--key-text);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translate(-50%, -115%) scale(0.85);
+      transition: opacity 0.08s ease, transform 0.08s ease;
+    }
+
+    .key-pop-bubble.visible {
+      opacity: 1;
+      transform: translate(-50%, -125%) scale(1);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: absolute;
+      top: 64px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      background: rgba(28, 22, 26, 0.88);
+      color: #f8eaf0;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(12px);
+      padding: 7px 15px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 60;
+      transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Slide-over Drawers & Modals */
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 7, 9, 0.65);
+      backdrop-filter: blur(8px);
+      z-index: 80;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .sheet-card {
+      width: 100%;
+      max-height: 76%;
+      background: #1d171b;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 28px 28px 0 0;
+      padding: 20px 20px calc(env(safe-area-inset-bottom, 0px) + 22px);
+      color: #f4e8ee;
+      transform: translateY(40px);
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow-y: auto;
+    }
+
+    .modal-backdrop.open .sheet-card {
+      transform: translateY(0);
+    }
+
+    .sheet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sheet-title {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .action-tile {
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: #f4e8ee;
+      border-radius: 16px;
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+
+    .action-tile:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .action-tile:active {
+      transform: scale(0.97);
+    }
+
+    .action-tile strong {
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+
+    .action-tile span {
+      font-size: 11.5px;
+      color: rgba(244, 232, 238, 0.6);
+    }
+
+    .notes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .note-item {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .note-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .note-item.active-note {
+      border-color: rgba(255, 165, 195, 0.45);
+      background: rgba(255, 165, 195, 0.08);
+    }
+
+    .note-preview {
+      font-family: var(--font-typewriter);
+      font-size: 13px;
+      color: #f4e8ee;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 280px;
+    }
+
+    .note-meta {
+      font-size: 11px;
+      color: rgba(244, 232, 238, 0.5);
+      margin-top: 3px;
+    }
+
+    .delete-note-btn {
+      appearance: none;
+      border: none;
+      background: rgba(255, 90, 110, 0.14);
+      color: #ff8e9e;
+      border-radius: 8px;
+      padding: 5px 8px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="night-mode" data-tint="rose">
+  <!-- First Page: Welcome Cover -->
+  <section class="landing-screen" id="landingScreen" aria-label="Welcome to Cozy writer">
+    <div class="landing-card">
+      <div class="landing-spotlight"></div>
+      <div class="paper-speckles"></div>
+      <div class="landing-carriage-badge" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <h1 class="landing-title">Cozy writer</h1>
+      <p class="landing-intro">A simple typing site developed by Md Asifur Rahman</p>
+      <button type="button" class="explore-btn" id="btnExplore">
+        <span>Explore</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- Main Typewriter Page -->
+  <div class="app-shell" id="appShell">
+    <!-- Toast Pill -->
+    <div class="toast" id="toast">Normal Mood</div>
+
+    <!-- Top Minimal Bar -->
+    <header class="top-bar">
+      <div class="top-left-group">
+        <button class="icon-btn" id="btnNotesDrawer" title="Saved Notes" aria-label="Saved Notes">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <div class="note-badge" id="noteBadge" title="Manage Saved Pages">Notes (1)</div>
+        <button class="pc-quick-new" id="btnPcNewSheet" title="Start a fresh page">+ New Page</button>
+      </div>
+
+      <!-- Editable Page / App Name -->
+      <div class="top-center-title">
+        <input
+          type="text"
+          class="title-input"
+          id="docTitleInput"
+          value="Cozy writer"
+          placeholder="Name your page..."
+          aria-label="Page or Site Name"
+          title="Click to rename"
+        />
+      </div>
+
+      <div class="top-right-group">
+        <span class="char-counter" id="charCounter">0 chars</span>
+        <button class="icon-btn" id="btnExportModal" title="Export & Share" aria-label="Export and Share">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+            <polyline points="16 6 12 2 8 6"/>
+            <line x1="12" y1="2" x2="12" y2="15"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Typewriter Paper & Mechanical Carriage Stage -->
+    <main class="stage-area" id="stageArea">
+      <div class="paper-wrapper" id="paperWrapper">
+        <div class="paper-speckles"></div>
+
+        <!-- Volumetric Desk Lamp Spotlight Cone (tracks carriage X) -->
+        <div class="spotlight-cone" id="spotlightCone"></div>
+        <div class="spotlight-core" id="spotlightCore"></div>
+
+        <!-- Twinkling 4-Point Sparkles -->
+        <div class="sparkles-layer" id="sparklesLayer">
+          <div class="sparkle-cluster" style="top: 30%; left: 14%;">
+            <svg class="sparkle-star" width="13" height="13" viewBox="0 0 24 24">
+              <path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z"/>
+            </svg>
+            <svg class="sparkle-star s2" width="8" height="8" viewBox="0 0 24 24" style="margin-top: 8px;">
+              <path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z"/>
+            </svg>
+            <svg class="sparkle-star s3" width="6" height="6" viewBox="0 0 24 24" style="margin-top: -6px;">
+              <path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z"/>
+            </svg>
+          </div>
+          <div class="sparkle-cluster" style="top: 22%; right: 15%; animation-delay: 1.4s;">
+            <svg class="sparkle-star s2" width="11" height="11" viewBox="0 0 24 24">
+              <path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z"/>
+            </svg>
+            <svg class="sparkle-star" width="7" height="7" viewBox="0 0 24 24" style="margin-top: 6px;">
+              <path d="M12 1 L14.6 9.4 L23 12 L14.6 14.6 L12 23 L9.4 14.6 L1 12 L9.4 9.4 Z"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Scrollable Paper Text Area (Unlimited Length) -->
+        <div class="paper-viewport" id="paperViewport">
+          <div class="typed-content" id="typedContent"><span class="placeholder-hint" id="placeholderHint">Start typing your thoughts...</span><span id="beforeCaret"></span><span class="selected-ink" id="selectedText"></span><span class="caret-cursor" id="caretCursor"></span><span id="afterCaret"></span></div>
+        </div>
+      </div>
+
+      <!-- Horizontal Roller Bar & Sliding Print-Head Pill Carriage -->
+      <div class="roller-assembly" id="rollerAssembly">
+        <div class="roller-rod">
+          <div class="roller-cap left"></div>
+          <div class="roller-cap right"></div>
+        </div>
+        <div class="carriage-pill" id="carriagePill">
+          <div class="typebar-striker" id="typebarStriker"></div>
+          <span class="carriage-dot active"></span>
+          <span class="carriage-dot"></span>
+          <span class="carriage-dot"></span>
+        </div>
+      </div>
+    </main>
+
+    <!-- Unlimited Hidden Native Textarea for PC Physical Keyboard & Cursor Navigation -->
+    <textarea id="hiddenInput" autocomplete="off" autocorrect="off" autocapitalize="sentences" spellcheck="false" aria-label="Typewriter input"></textarea>
+
+    <!-- Floating Frosted Glass Control Toolbar -->
+    <div class="toolbar-zone">
+      <div class="frosted-pill">
+        <!-- Toggle Keyboard Collapse -->
+        <button class="tool-btn" id="btnToggleKb" title="Show / Hide Keyboard Deck" aria-label="Toggle Keyboard">
+          <svg id="chevronIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        <!-- Cycle Paper Tint -->
+        <button class="tool-btn" id="btnPaperTint" title="Paper Color Tint" aria-label="Paper Color Tint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+        </button>
+
+        <!-- Cycle Typewriter Font -->
+        <button class="tool-btn" id="btnFontCycle" title="Typewriter Font" aria-label="Typewriter Font">
+          Aa
+        </button>
+
+        <!-- Toggle Sparkles -->
+        <button class="tool-btn is-active" id="btnSparkles" title="Toggle Sparkles" aria-label="Toggle Sparkles">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3z"/>
+          </svg>
+        </button>
+
+        <!-- Cycle Paper Width & Text Size -->
+        <button class="tool-btn" id="btnZoomSize" title="Paper Width & Font Size" aria-label="Paper Width and Font Size">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="20" y1="20" x2="16.2" y2="16.2"/>
+            <line x1="11" y1="8" x2="11" y2="14"/>
+            <line x1="8" y1="11" x2="14" y2="11"/>
+          </svg>
+        </button>
+
+        <!-- Switch Mood: Normal / Warm Cozy -->
+        <button class="tool-btn is-active" id="btnLampMode" title="Switch Mood: Normal / Warm Cozy" aria-label="Switch Mood: Normal or Warm Cozy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 2h8l4 10H4L8 2z"/>
+            <path d="M12 12v6"/>
+            <path d="M8 22h8"/>
+            <path d="M12 18c-2.2 0-4 1.8-4 4h8c0-2.2-1.8-4-4-4z"/>
+          </svg>
+        </button>
+
+        <!-- Toggle Mechanical Audio -->
+        <div class="status-dot-pill sound-on" id="btnSoundToggle" title="Toggle Typewriter Sound"></div>
+      </div>
+    </div>
+
+    <!-- Adaptive Keyboard Deck (Mobile 4-Row Touch Deck on Phone / Full Mechanical Deck on PC) -->
+    <section class="keyboard-deck" id="keyboardDeck" aria-label="Cozy Typewriter Keyboard"></section>
+
+    <!-- Mobile Touch Key-Pop Preview Bubble -->
+    <div class="key-pop-bubble" id="keyPopBubble">a</div>
+
+    <!-- Saved Notes Drawer Modal -->
+    <div class="modal-backdrop" id="notesModal">
+      <div class="sheet-card">
+        <div class="sheet-header">
+          <span class="sheet-title">Saved Typewriter Pages</span>
+          <button class="icon-btn" id="closeNotesModal" aria-label="Close">✕</button>
+        </div>
+        <button class="action-tile" id="btnNewNote" style="width: 100%; flex-direction: row; align-items: center; justify-content: space-between;">
+          <div>
+            <strong>+ Fresh Sheet of Paper</strong>
+            <span>Save current page & start blank</span>
+          </div>
+          <span style="font-size: 18px;">↵</span>
+        </button>
+        <div class="notes-list" id="notesList"></div>
+      </div>
+    </div>
+
+    <!-- Export & Share Modal -->
+    <div class="modal-backdrop" id="exportModal">
+      <div class="sheet-card">
+        <div class="sheet-header">
+          <span class="sheet-title">Save & Share Page</span>
+          <button class="icon-btn" id="closeExportModal" aria-label="Close">✕</button>
+        </div>
+        <div class="action-grid">
+          <button class="action-tile" id="btnDownloadPng">
+            <strong>Save PNG Card</strong>
+            <span>Curved paper & spotlight</span>
+          </button>
+          <button class="action-tile" id="btnCopyText">
+            <strong>Copy Text</strong>
+            <span>Copy note to clipboard</span>
+          </button>
+          <button class="action-tile" id="btnDownloadTxt">
+            <strong>Download .TXT</strong>
+            <span>Plain text file export</span>
+          </button>
+          <button class="action-tile" id="btnRainToggle">
+            <strong>Cozy Rain Ambience</strong>
+            <span id="rainStatusLabel">Currently: Off</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      // =========================================================
+      // 1. STATE & CONFIGURATION (UNLIMITED CHARACTERS)
+      // =========================================================
+      const STORAGE_KEY = 'cozy_typewriter_notes_v5';
+
+      const FONTS = [
+        { name: 'Courier Prime', css: "'Courier Prime', monospace" },
+        { name: 'Special Elite', css: "'Special Elite', 'Courier Prime', monospace" },
+        { name: 'IBM Plex Mono', css: "'IBM Plex Mono', monospace" },
+        { name: 'JetBrains Mono', css: "'JetBrains Mono', monospace" }
+      ];
+
+      const TINTS = [
+        { id: 'rose', label: 'Dusty Rose' },
+        { id: 'cream', label: 'Warm Cream' },
+        { id: 'sage', label: 'Sage Mist' },
+        { id: 'lavender', label: 'Lavender Dusk' }
+      ];
+
+      const SIZES = [
+        { label: 'Classic Sheet', mobilePx: '16.5px', desktopPx: '18.5px', wide: false },
+        { label: 'Wide Studio Sheet', mobilePx: '18.5px', desktopPx: '20.5px', wide: true },
+        { label: 'Compact Editorial', mobilePx: '14.5px', desktopPx: '16px', wide: false }
+      ];
+
+      const DEFAULT_SAMPLE = "This App is so cool!\nWrite and save notes in best possible ways!\n\nI want you to try typing now...";
+
+      let state = {
+        notes: [],
+        activeId: null,
+        nightMode: true,
+        warmCozy: false,
+        tintIndex: 0,
+        fontIndex: 0,
+        sizeIndex: 0,
+        sparkles: true,
+        sound: true,
+        rain: false,
+        kbCollapsed: false,
+        shift: false,
+        symbols: false,
+        enteredMain: false
+      };
+
+      const isDesktopLayout = () => window.innerWidth >= 768;
+      const isTouchPrimary = () => window.matchMedia('(pointer: coarse)').matches && window.innerWidth < 768;
+
+      // =========================================================
+      // 2. DOM REFERENCES
+      // =========================================================
+      const landingScreen = document.getElementById('landingScreen');
+      const btnExplore = document.getElementById('btnExplore');
+      const hiddenInput = document.getElementById('hiddenInput');
+      const docTitleInput = document.getElementById('docTitleInput');
+      const beforeCaretEl = document.getElementById('beforeCaret');
+      const selectedTextEl = document.getElementById('selectedText');
+      const afterCaretEl = document.getElementById('afterCaret');
+      const placeholderHint = document.getElementById('placeholderHint');
+      const caretCursor = document.getElementById('caretCursor');
+      const paperViewport = document.getElementById('paperViewport');
+      const paperWrapper = document.getElementById('paperWrapper');
+      const rollerAssembly = document.getElementById('rollerAssembly');
+      const carriagePill = document.getElementById('carriagePill');
+      const typebarStriker = document.getElementById('typebarStriker');
+      const spotlightCone = document.getElementById('spotlightCone');
+      const spotlightCore = document.getElementById('spotlightCore');
+      const sparklesLayer = document.getElementById('sparklesLayer');
+      const charCounter = document.getElementById('charCounter');
+      const noteBadge = document.getElementById('noteBadge');
+      const keyboardDeck = document.getElementById('keyboardDeck');
+      const keyPopBubble = document.getElementById('keyPopBubble');
+      const toastEl = document.getElementById('toast');
+
+      // =========================================================
+      // 3. WEB AUDIO API SYNTHESIZER (Tactile ASMR + Bell + Rain)
+      // =========================================================
+      let audioCtx = null;
+      let rainNode = null;
+      let rainGain = null;
+
+      function ensureAudio() {
+        if (!audioCtx) {
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (Ctx) audioCtx = new Ctx();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume().catch(() => {});
+        }
+      }
+
+      function playKeySound(type = 'char') {
+        if (!state.sound) return;
+        ensureAudio();
+        if (!audioCtx) return;
+
+        const now = audioCtx.currentTime;
+        const pitchJitter = 0.94 + Math.random() * 0.12;
+
+        if (type === 'return') {
+          const osc1 = audioCtx.createOscillator();
+          const osc2 = audioCtx.createOscillator();
+          const bellGain = audioCtx.createGain();
+          osc1.type = 'sine';
+          osc2.type = 'triangle';
+          osc1.frequency.setValueAtTime(1865, now + 0.04);
+          osc2.frequency.setValueAtTime(2794, now + 0.04);
+
+          bellGain.gain.setValueAtTime(0.0001, now);
+          bellGain.gain.linearRampToValueAtTime(0.11, now + 0.045);
+          bellGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.85);
+
+          osc1.connect(bellGain);
+          osc2.connect(bellGain);
+          bellGain.connect(audioCtx.destination);
+          osc1.start(now + 0.04);
+          osc2.start(now + 0.04);
+          osc1.stop(now + 0.88);
+          osc2.stop(now + 0.88);
+        }
+
+        const bufferSize = Math.floor(audioCtx.sampleRate * (type === 'space' ? 0.055 : 0.038));
+        const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          const env = Math.pow(1 - i / bufferSize, 2.2);
+          data[i] = (Math.random() * 2 - 1) * env;
+        }
+
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = noiseBuffer;
+
+        const warmthScale = state.warmCozy ? 0.84 : 1.0;
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'bandpass';
+        if (type === 'space') {
+          filter.frequency.setValueAtTime(520 * pitchJitter * warmthScale, now);
+          filter.Q.setValueAtTime(1.6, now);
+        } else if (type === 'backspace') {
+          filter.frequency.setValueAtTime(1350 * pitchJitter * warmthScale, now);
+          filter.Q.setValueAtTime(2.2, now);
+        } else {
+          filter.frequency.setValueAtTime(1750 * pitchJitter * warmthScale, now);
+          filter.Q.setValueAtTime(1.9, now);
+        }
+
+        const gain = audioCtx.createGain();
+        const peak = type === 'space' ? 0.24 : 0.18;
+        gain.gain.setValueAtTime(peak, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + (type === 'space' ? 0.055 : 0.038));
+
+        const thud = audioCtx.createOscillator();
+        const thudGain = audioCtx.createGain();
+        thud.type = 'sine';
+        thud.frequency.setValueAtTime((type === 'space' ? 115 : 165) * pitchJitter * warmthScale, now);
+        thud.frequency.exponentialRampToValueAtTime(42, now + 0.032);
+        thudGain.gain.setValueAtTime(type === 'space' ? 0.18 : 0.11, now);
+        thudGain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        thud.connect(thudGain);
+        thudGain.connect(audioCtx.destination);
+
+        noise.start(now);
+        thud.start(now);
+        thud.stop(now + 0.04);
+      }
+
+      function toggleRainAmbience() {
+        state.rain = !state.rain;
+        document.getElementById('rainStatusLabel').textContent = `Currently: ${state.rain ? 'On' : 'Off'}`;
+        if (state.rain) {
+          ensureAudio();
+          if (!audioCtx) return;
+          const bufferSize = audioCtx.sampleRate * 3;
+          const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+          const out = buffer.getChannelData(0);
+          let b0 = 0, b1 = 0, b2 = 0;
+          for (let i = 0; i < bufferSize; i++) {
+            const white = Math.random() * 2 - 1;
+            b0 = 0.99765 * b0 + white * 0.099046;
+            b1 = 0.96300 * b1 + white * 0.2965164;
+            b2 = 0.57000 * b2 + white * 1.0526913;
+            out[i] = (b0 + b1 + b2 + white * 0.1848) * 0.04;
+          }
+          rainNode = audioCtx.createBufferSource();
+          rainNode.buffer = buffer;
+          rainNode.loop = true;
+
+          const lpf = audioCtx.createBiquadFilter();
+          lpf.type = 'lowpass';
+          lpf.frequency.value = 950;
+
+          rainGain = audioCtx.createGain();
+          rainGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+          rainGain.gain.linearRampToValueAtTime(0.32, audioCtx.currentTime + 0.8);
+
+          rainNode.connect(lpf);
+          lpf.connect(rainGain);
+          rainGain.connect(audioCtx.destination);
+          rainNode.start();
+          showToast('Cozy Rain On');
+        } else {
+          if (rainNode && rainGain && audioCtx) {
+            rainGain.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.35);
+            const oldNode = rainNode;
+            setTimeout(() => { try { oldNode.stop(); } catch (e) {} }, 400);
+          }
+          rainNode = null;
+          showToast('Cozy Rain Off');
+        }
+      }
+
+      // =========================================================
+      // 4. SPRING PHYSICS ENGINE (Carriage X + T-Bar Striker)
+      // =========================================================
+      let targetCarriageX = 160;
+      let currentCarriageX = 160;
+      let carriageVelocity = 0;
+      let strikerImpulse = 0;
+      let paperNudgeY = 0;
+
+      function triggerStrikerHit(isNewline = false) {
+        strikerImpulse = 1;
+        if (isNewline) {
+          paperNudgeY = 6;
+        }
+      }
+
+      function updateCarriageTarget() {
+        const rollerRect = rollerAssembly.getBoundingClientRect();
+        const caretRect = caretCursor.getBoundingClientRect();
+        if (rollerRect.width <= 0) return;
+
+        let relX = caretRect.left - rollerRect.left;
+        const minPad = 52;
+        const maxPad = rollerRect.width - 52;
+        relX = Math.max(minPad, Math.min(maxPad, relX));
+        targetCarriageX = relX;
+      }
+
+      let lastFrameTime = performance.now();
+      function animatePhysics(now) {
+        const dt = Math.min(0.032, (now - lastFrameTime) / 1000);
+        lastFrameTime = now;
+
+        const stiffness = 360;
+        const damping = 28;
+        const force = (targetCarriageX - currentCarriageX) * stiffness;
+        carriageVelocity = (carriageVelocity + force * dt) * Math.exp(-damping * dt);
+        currentCarriageX += carriageVelocity * dt;
+
+        carriagePill.style.transform = `translate3d(${currentCarriageX.toFixed(2)}px, 0, 0)`;
+
+        const paperRect = paperWrapper.getBoundingClientRect();
+        const rollerRect = rollerAssembly.getBoundingClientRect();
+        const paperOffsetX = currentCarriageX + (rollerRect.left - paperRect.left);
+        spotlightCone.style.transform = `translate3d(${paperOffsetX.toFixed(2)}px, 0, 0)`;
+        spotlightCore.style.transform = `translate3d(${paperOffsetX.toFixed(2)}px, 0, 0)`;
+
+        if (strikerImpulse > 0.001) {
+          strikerImpulse *= Math.exp(-26 * dt);
+          const lift = -5.5 * strikerImpulse;
+          const stretch = 1 + 0.14 * strikerImpulse;
+          typebarStriker.style.transform = `translate3d(0, ${lift.toFixed(2)}px, 0) scaleY(${stretch.toFixed(3)})`;
+        } else {
+          typebarStriker.style.transform = 'translate3d(0, 0, 0) scaleY(1)';
+        }
+
+        if (Math.abs(paperNudgeY) > 0.05) {
+          paperNudgeY *= Math.exp(-18 * dt);
+          paperWrapper.style.transform = `translate3d(0, ${paperNudgeY.toFixed(2)}px, 0)`;
+        } else {
+          paperWrapper.style.transform = 'translate3d(0, 0, 0)';
+        }
+
+        requestAnimationFrame(animatePhysics);
+      }
+      requestAnimationFrame(animatePhysics);
+
+      // =========================================================
+      // 5. NOTES PERSISTENCE & UNLIMITED CURSOR RENDERING
+      // =========================================================
+      function loadNotes() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed.notes) && parsed.notes.length > 0) {
+              state.notes = parsed.notes;
+              state.activeId = parsed.activeId || parsed.notes[0].id;
+              return;
+            }
+          }
+        } catch (e) {}
+
+        const initial = {
+          id: 'note_' + Date.now(),
+          title: 'Cozy writer',
+          text: DEFAULT_SAMPLE,
+          updatedAt: Date.now()
+        };
+        state.notes = [initial];
+        state.activeId = initial.id;
+      }
+
+      function saveNotes() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            notes: state.notes,
+            activeId: state.activeId
+          }));
+        } catch (e) {}
+      }
+
+      function getActiveNote() {
+        return state.notes.find(n => n.id === state.activeId) || state.notes[0];
+      }
+
+      function syncTitleUI() {
+        const note = getActiveNote();
+        const titleVal = (note && note.title) ? note.title : 'Cozy writer';
+        if (document.activeElement !== docTitleInput) {
+          docTitleInput.value = titleVal;
+        }
+        document.title = titleVal;
+      }
+
+      docTitleInput.addEventListener('input', () => {
+        const note = getActiveNote();
+        if (note) {
+          note.title = docTitleInput.value;
+          note.updatedAt = Date.now();
+          document.title = note.title.trim() || 'Cozy writer';
+          saveNotes();
+        }
+      });
+
+      docTitleInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === 'Escape') {
+          e.preventDefault();
+          if (!docTitleInput.value.trim()) {
+            docTitleInput.value = 'Cozy writer';
+            const note = getActiveNote();
+            if (note) { note.title = 'Cozy writer'; saveNotes(); }
+          }
+          docTitleInput.blur();
+          focusPhysicalInput();
+        }
+      });
+
+      function updateCounter(text) {
+        const len = text.length;
+        const trimmed = text.trim();
+        const words = trimmed ? trimmed.split(/\s+/).length : 0;
+        if (isDesktopLayout()) {
+          charCounter.textContent = `${words.toLocaleString()} words · ${len.toLocaleString()} chars`;
+        } else {
+          charCounter.textContent = `${len.toLocaleString()} chars`;
+        }
+      }
+
+      function renderEditor(text, selStart, selEnd, animateStamp = false) {
+        if (typeof selEnd === 'boolean') {
+          animateStamp = selEnd;
+          selEnd = selStart;
+        }
+        const rawStart = typeof selStart === 'number' ? selStart : text.length;
+        const rawEnd = typeof selEnd === 'number' ? selEnd : rawStart;
+        const safeStart = Math.max(0, Math.min(text.length, Math.min(rawStart, rawEnd)));
+        const safeEnd = Math.max(safeStart, Math.min(text.length, Math.max(rawStart, rawEnd)));
+        const hasSelection = safeEnd > safeStart;
+
+        const note = getActiveNote();
+        if (note) {
+          note.text = text;
+          note.updatedAt = Date.now();
+          saveNotes();
+        }
+
+        if (hiddenInput.value !== text) {
+          hiddenInput.value = text;
+        }
+        if (document.activeElement === hiddenInput) {
+          if (hiddenInput.selectionStart !== safeStart || hiddenInput.selectionEnd !== safeEnd) {
+            try { hiddenInput.setSelectionRange(safeStart, safeEnd); } catch (e) {}
+          }
+        }
+
+        placeholderHint.style.opacity = text.length === 0 ? '1' : '0';
+        updateCounter(text);
+        noteBadge.textContent = `Notes (${state.notes.length})`;
+        syncTitleUI();
+
+        const beforeText = text.slice(0, safeStart);
+        const selText = text.slice(safeStart, safeEnd);
+        const afterText = text.slice(safeEnd);
+
+        if (animateStamp && !hasSelection && beforeText.length > 0) {
+          beforeCaretEl.textContent = beforeText.slice(0, -1);
+          const stamp = document.createElement('span');
+          stamp.className = 'ink-char';
+          stamp.textContent = beforeText.slice(-1);
+          beforeCaretEl.appendChild(stamp);
+        } else {
+          beforeCaretEl.textContent = beforeText;
+        }
+        selectedTextEl.textContent = selText;
+        afterCaretEl.textContent = afterText;
+        caretCursor.classList.toggle('has-selection', hasSelection);
+
+        if (safeEnd === text.length && !hasSelection) {
+          paperViewport.scrollTop = paperViewport.scrollHeight;
+        }
+
+        requestAnimationFrame(updateCarriageTarget);
+      }
+
+      function insertAtCursor(str, soundType = 'char', isNewline = false) {
+        const current = getActiveNote().text;
+        const pos = hiddenInput.selectionStart ?? current.length;
+        const end = hiddenInput.selectionEnd ?? pos;
+
+        const nextText = current.slice(0, pos) + str + current.slice(end);
+        const nextPos = pos + str.length;
+        playKeySound(soundType);
+        triggerStrikerHit(isNewline);
+        renderEditor(nextText, nextPos, nextPos, true);
+      }
+
+      function deleteAtCursor() {
+        const current = getActiveNote().text;
+        const pos = hiddenInput.selectionStart ?? current.length;
+        const end = hiddenInput.selectionEnd ?? pos;
+
+        if (end > pos) {
+          const nextText = current.slice(0, pos) + current.slice(end);
+          playKeySound('backspace');
+          triggerStrikerHit(false);
+          renderEditor(nextText, pos, pos, false);
+        } else if (pos > 0) {
+          const nextText = current.slice(0, pos - 1) + current.slice(pos);
+          playKeySound('backspace');
+          triggerStrikerHit(false);
+          renderEditor(nextText, pos - 1, pos - 1, false);
+        }
+      }
+
+      // =========================================================
+      // 6. ADAPTIVE KEYBOARD BUILDER (Mobile Deck vs PC Mechanical Deck)
+      // =========================================================
+      const MOBILE_ALPHA_ROWS = [
+        ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+        ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+        ['SHIFT', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'BACKSPACE'],
+        ['123', 'SPACE', 'RETURN']
+      ];
+
+      const MOBILE_SYMBOL_ROWS = [
+        ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+        ['-', '/', ':', ';', '(', ')', '$', '&', '@', '"'],
+        ['ABC', '.', ',', '?', '!', "'", '—', 'BACKSPACE'],
+        ['ABC', 'SPACE', 'RETURN']
+      ];
+
+      const PC_DESKTOP_ROWS = [
+        ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'BACKSPACE'],
+        ['TAB', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']'],
+        ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'RETURN'],
+        ['SHIFT', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'SHIFT'],
+        ['LEFT', 'SPACE', 'RIGHT']
+      ];
+
+      const SHIFT_MAP = {
+        '1': '!', '2': '@', '3': '#', '4': '$', '5': '%',
+        '6': '^', '7': '&', '8': '*', '9': '(', '0': ')',
+        '-': '_', '=': '+', '[': '{', ']': '}', ';': ':',
+        "'": '"', ',': '<', '.': '>', '/': '?'
+      };
+
+      let lastBuiltDesktop = null;
+
+      function buildKeyboard(force = false) {
+        const desktop = isDesktopLayout();
+        if (!force && lastBuiltDesktop === desktop && keyboardDeck.children.length > 0) {
+          keyboardDeck.querySelectorAll('.keycap').forEach(btn => {
+            const base = btn.dataset.base;
+            if (!base) return;
+            if (base === 'SHIFT') {
+              btn.classList.toggle('shift-active', state.shift);
+            } else if (base.length === 1) {
+              const ch = state.shift
+                ? (SHIFT_MAP[base] || base.toUpperCase())
+                : base;
+              btn.textContent = ch;
+              btn.dataset.key = ch;
+            }
+          });
+          return;
+        }
+
+        lastBuiltDesktop = desktop;
+        keyboardDeck.innerHTML = '';
+
+        const rows = desktop
+          ? PC_DESKTOP_ROWS
+          : (state.symbols ? MOBILE_SYMBOL_ROWS : MOBILE_ALPHA_ROWS);
+
+        rows.forEach((rowKeys, rIdx) => {
+          const rowEl = document.createElement('div');
+          rowEl.className = 'kb-row' + (!desktop && rIdx === 1 ? ' mobile-indent' : '');
+
+          rowKeys.forEach((keyCode) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'keycap';
+            btn.dataset.base = keyCode;
+
+            let label = keyCode;
+            let dataKey = keyCode;
+
+            if (keyCode === 'SHIFT') {
+              btn.classList.add('fn-key');
+              if (state.shift) btn.classList.add('shift-active');
+              label = '⇧';
+            } else if (keyCode === 'BACKSPACE') {
+              btn.classList.add('fn-key');
+              label = '⌫';
+            } else if (keyCode === 'TAB') {
+              btn.classList.add('fn-key');
+              label = 'tab';
+            } else if (keyCode === '123' || keyCode === 'ABC') {
+              btn.classList.add('fn-key');
+              label = keyCode;
+            } else if (keyCode === 'SPACE') {
+              btn.classList.add('space-key');
+              label = 'space';
+            } else if (keyCode === 'RETURN') {
+              btn.classList.add('return-key');
+              label = '↵';
+            } else if (keyCode === 'LEFT') {
+              btn.classList.add('fn-key');
+              label = '←';
+            } else if (keyCode === 'RIGHT') {
+              btn.classList.add('fn-key');
+              label = '→';
+            } else {
+              label = state.shift ? (SHIFT_MAP[keyCode] || keyCode.toUpperCase()) : keyCode;
+              dataKey = label;
+            }
+
+            btn.textContent = label;
+            btn.dataset.key = dataKey;
+
+            btn.addEventListener('pointerdown', (e) => {
+              e.preventDefault();
+              btn.classList.add('pressed');
+              if (navigator.vibrate) {
+                try { navigator.vibrate(6); } catch (_) {}
+              }
+
+              if (keyCode.length === 1 && !desktop) {
+                const rect = btn.getBoundingClientRect();
+                keyPopBubble.textContent = label;
+                keyPopBubble.style.left = `${rect.left + rect.width / 2}px`;
+                keyPopBubble.style.top = `${rect.top}px`;
+                keyPopBubble.classList.add('visible');
+              }
+
+              handleVirtualKey(keyCode, btn.dataset.key);
+              focusPhysicalInput();
+            });
+
+            const releaseKey = () => {
+              btn.classList.remove('pressed');
+              keyPopBubble.classList.remove('visible');
+            };
+            btn.addEventListener('pointerup', releaseKey);
+            btn.addEventListener('pointerleave', releaseKey);
+            btn.addEventListener('pointercancel', releaseKey);
+
+            rowEl.appendChild(btn);
+          });
+
+          keyboardDeck.appendChild(rowEl);
+        });
+      }
+
+      function handleVirtualKey(keyCode, displayLabel) {
+        if (keyCode === 'SHIFT') {
+          state.shift = !state.shift;
+          playKeySound('backspace');
+          buildKeyboard(false);
+          return;
+        }
+        if (keyCode === '123') {
+          state.symbols = true;
+          playKeySound('backspace');
+          buildKeyboard(true);
+          return;
+        }
+        if (keyCode === 'ABC') {
+          state.symbols = false;
+          playKeySound('backspace');
+          buildKeyboard(true);
+          return;
+        }
+        if (keyCode === 'BACKSPACE') {
+          deleteAtCursor();
+          return;
+        }
+        if (keyCode === 'TAB') {
+          insertAtCursor('  ', 'space', false);
+          return;
+        }
+        if (keyCode === 'SPACE') {
+          insertAtCursor(' ', 'space', false);
+          return;
+        }
+        if (keyCode === 'RETURN') {
+          insertAtCursor('\n', 'return', true);
+          return;
+        }
+        if (keyCode === 'LEFT' || keyCode === 'RIGHT') {
+          const cur = hiddenInput.selectionStart ?? getActiveNote().text.length;
+          const next = keyCode === 'LEFT' ? Math.max(0, cur - 1) : Math.min(getActiveNote().text.length, cur + 1);
+          playKeySound('backspace');
+          renderEditor(getActiveNote().text, next, next, false);
+          return;
+        }
+
+        insertAtCursor(displayLabel, 'char', false);
+        if (state.shift) {
+          state.shift = false;
+          buildKeyboard(false);
+        }
+      }
+
+      // =========================================================
+      // 7. FIRST PAGE EXPLORE TRANSITION & INPUT SYNC
+      // =========================================================
+      function enterMainStudio() {
+        if (state.enteredMain) return;
+        state.enteredMain = true;
+        playKeySound('return');
+        landingScreen.classList.add('entering');
+        setTimeout(() => {
+          landingScreen.style.display = 'none';
+          updateCarriageTarget();
+          currentCarriageX = targetCarriageX;
+          focusPhysicalInput();
+        }, 560);
+      }
+
+      btnExplore.addEventListener('click', enterMainStudio);
+
+      function focusPhysicalInput() {
+        if (state.enteredMain && !isTouchPrimary() && document.activeElement !== docTitleInput) {
+          hiddenInput.focus({ preventScroll: true });
+        }
+      }
+
+      document.getElementById('stageArea').addEventListener('click', () => {
+        if (isTouchPrimary()) {
+          if (state.kbCollapsed) toggleKeyboardCollapse(false);
+        } else {
+          focusPhysicalInput();
+        }
+      });
+
+      function syncFromHiddenSelection() {
+        if (document.activeElement === hiddenInput) {
+          const s = hiddenInput.selectionStart ?? hiddenInput.value.length;
+          const e = hiddenInput.selectionEnd ?? s;
+          renderEditor(hiddenInput.value, s, e, false);
+        }
+      }
+
+      hiddenInput.addEventListener('input', () => {
+        const newVal = hiddenInput.value;
+        const oldVal = getActiveNote().text;
+        const pos = hiddenInput.selectionStart ?? newVal.length;
+        const end = hiddenInput.selectionEnd ?? pos;
+        const isInsert = newVal.length >= oldVal.length;
+        const insertedChar = newVal.slice(Math.max(0, pos - 1), pos);
+
+        if (isInsert) {
+          if (insertedChar === '\n') {
+            playKeySound('return');
+            triggerStrikerHit(true);
+          } else if (insertedChar === ' ') {
+            playKeySound('space');
+            triggerStrikerHit(false);
+          } else {
+            playKeySound('char');
+            triggerStrikerHit(false);
+          }
+        } else {
+          playKeySound('backspace');
+          triggerStrikerHit(false);
+        }
+
+        renderEditor(newVal, pos, end, isInsert);
+      });
+
+      ['keyup', 'mouseup', 'select'].forEach(evt => {
+        hiddenInput.addEventListener(evt, syncFromHiddenSelection);
+      });
+      document.addEventListener('selectionchange', syncFromHiddenSelection);
+
+      window.addEventListener('keydown', (e) => {
+        // If still on the first landing page, Enter or Space triggers Explore
+        if (!state.enteredMain) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            enterMainStudio();
+          }
+          return;
+        }
+
+        // Allow typing & Ctrl+A freely inside the editable title input at the top center
+        if (document.activeElement === docTitleInput) {
+          return;
+        }
+
+        if (document.getElementById('notesModal').classList.contains('open') ||
+            document.getElementById('exportModal').classList.contains('open')) {
+          if (e.key === 'Escape') {
+            document.getElementById('notesModal').classList.remove('open');
+            document.getElementById('exportModal').classList.remove('open');
+            focusPhysicalInput();
+          }
+          return;
+        }
+
+        const isMod = e.metaKey || e.ctrlKey;
+
+        // Ctrl+A / Cmd+A: Select All text on the typewriter sheet
+        if (isMod && !e.altKey && e.key.toLowerCase() === 'a') {
+          e.preventDefault();
+          const currentText = getActiveNote().text;
+          hiddenInput.value = currentText;
+          hiddenInput.focus({ preventScroll: true });
+          hiddenInput.setSelectionRange(0, currentText.length);
+          renderEditor(currentText, 0, currentText.length, false);
+          return;
+        }
+
+        // Desktop Shortcuts
+        if (isMod && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          toggleKeyboardCollapse();
+          return;
+        }
+        if (isMod && e.key.toLowerCase() === 'l') {
+          e.preventDefault();
+          document.getElementById('btnLampMode').click();
+          return;
+        }
+
+        if (!isTouchPrimary() && document.activeElement !== hiddenInput) {
+          hiddenInput.focus({ preventScroll: true });
+        }
+
+        // Escape collapses any active selection cleanly
+        if (e.key === 'Escape') {
+          const endPos = hiddenInput.selectionEnd ?? getActiveNote().text.length;
+          hiddenInput.setSelectionRange(endPos, endPos);
+          renderEditor(getActiveNote().text, endPos, endPos, false);
+          return;
+        }
+
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          insertAtCursor('  ', 'space', false);
+        }
+
+        if (isMod) return;
+
+        let targetKey = e.key;
+        if (targetKey === ' ') targetKey = 'SPACE';
+        else if (targetKey === 'Enter') targetKey = 'RETURN';
+        else if (targetKey === 'Backspace') targetKey = 'BACKSPACE';
+        else if (targetKey === 'Shift') targetKey = 'SHIFT';
+        else if (targetKey === 'Tab') targetKey = 'TAB';
+        else if (targetKey === 'ArrowLeft') targetKey = 'LEFT';
+        else if (targetKey === 'ArrowRight') targetKey = 'RIGHT';
+
+        keyboardDeck.querySelectorAll('.keycap').forEach(el => {
+          if (el.dataset.base === targetKey ||
+              el.dataset.key === targetKey ||
+              el.dataset.base?.toLowerCase() === targetKey.toLowerCase()) {
+            el.classList.add('pressed');
+          }
+        });
+      });
+
+      window.addEventListener('keyup', (e) => {
+        let targetKey = e.key;
+        if (targetKey === ' ') targetKey = 'SPACE';
+        else if (targetKey === 'Enter') targetKey = 'RETURN';
+        else if (targetKey === 'Backspace') targetKey = 'BACKSPACE';
+        else if (targetKey === 'Shift') targetKey = 'SHIFT';
+        else if (targetKey === 'Tab') targetKey = 'TAB';
+        else if (targetKey === 'ArrowLeft') targetKey = 'LEFT';
+        else if (targetKey === 'ArrowRight') targetKey = 'RIGHT';
+
+        keyboardDeck.querySelectorAll('.keycap').forEach(el => {
+          if (el.dataset.base === targetKey ||
+              el.dataset.key === targetKey ||
+              el.dataset.base?.toLowerCase() === targetKey.toLowerCase()) {
+            el.classList.remove('pressed');
+          }
+        });
+      });
+
+      // =========================================================
+      // 8. FLOATING TOOLBAR CONTROLS & MODALS
+      // =========================================================
+      let toastTimer = null;
+      function showToast(msg) {
+        toastEl.textContent = msg;
+        toastEl.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1700);
+      }
+
+      function toggleKeyboardCollapse(forceState) {
+        state.kbCollapsed = typeof forceState === 'boolean' ? forceState : !state.kbCollapsed;
+        keyboardDeck.classList.toggle('collapsed', state.kbCollapsed);
+        const chevron = document.getElementById('chevronIcon');
+        chevron.style.transform = state.kbCollapsed ? 'rotate(180deg)' : 'rotate(0deg)';
+        chevron.style.transition = 'transform 0.3s ease';
+        setTimeout(updateCarriageTarget, 390);
+      }
+
+      function applySizeScale() {
+        const sz = SIZES[state.sizeIndex];
+        const px = isDesktopLayout() ? sz.desktopPx : sz.mobilePx;
+        document.documentElement.style.setProperty('--font-size', px);
+        document.body.classList.toggle('wide-paper', sz.wide);
+      }
+
+      document.getElementById('btnToggleKb').addEventListener('click', () => {
+        toggleKeyboardCollapse();
+        focusPhysicalInput();
+      });
+
+      document.getElementById('btnPaperTint').addEventListener('click', () => {
+        state.tintIndex = (state.tintIndex + 1) % TINTS.length;
+        const tint = TINTS[state.tintIndex];
+        document.body.setAttribute('data-tint', tint.id);
+        if (state.nightMode) {
+          state.nightMode = false;
+          state.warmCozy = false;
+          document.body.classList.remove('night-mode', 'warm-cozy');
+          const lampBtn = document.getElementById('btnLampMode');
+          lampBtn.classList.remove('is-active', 'warm-active');
+        }
+        playKeySound('backspace');
+        showToast(`Day Paper: ${tint.label}`);
+        focusPhysicalInput();
+      });
+
+      document.getElementById('btnFontCycle').addEventListener('click', () => {
+        state.fontIndex = (state.fontIndex + 1) % FONTS.length;
+        const font = FONTS[state.fontIndex];
+        document.documentElement.style.setProperty('--font-typewriter', font.css);
+        playKeySound('backspace');
+        showToast(`Font: ${font.name}`);
+        requestAnimationFrame(updateCarriageTarget);
+        focusPhysicalInput();
+      });
+
+      document.getElementById('btnSparkles').addEventListener('click', (e) => {
+        state.sparkles = !state.sparkles;
+        sparklesLayer.classList.toggle('hidden', !state.sparkles);
+        e.currentTarget.classList.toggle('is-active', state.sparkles);
+        playKeySound('backspace');
+        showToast(state.sparkles ? 'Sparkles On' : 'Sparkles Off');
+        focusPhysicalInput();
+      });
+
+      document.getElementById('btnZoomSize').addEventListener('click', () => {
+        state.sizeIndex = (state.sizeIndex + 1) % SIZES.length;
+        applySizeScale();
+        playKeySound('backspace');
+        showToast(SIZES[state.sizeIndex].label);
+        setTimeout(updateCarriageTarget, 320);
+        focusPhysicalInput();
+      });
+
+      document.getElementById('btnLampMode').addEventListener('click', (e) => {
+        if (!state.nightMode) {
+          state.nightMode = true;
+          state.warmCozy = false;
+        } else {
+          state.warmCozy = !state.warmCozy;
+        }
+        document.body.classList.toggle('night-mode', state.nightMode);
+        document.body.classList.toggle('warm-cozy', state.nightMode && state.warmCozy);
+        e.currentTarget.classList.toggle('is-active', state.nightMode);
+        e.currentTarget.classList.toggle('warm-active', state.nightMode && state.warmCozy);
+        playKeySound('backspace');
+        showToast(state.warmCozy ? 'Warm Cozy Mood' : 'Normal Mood');
+        focusPhysicalInput();
+      });
+
+      document.getElementById('btnSoundToggle').addEventListener('click', (e) => {
+        state.sound = !state.sound;
+        e.currentTarget.classList.toggle('sound-on', state.sound);
+        if (state.sound) playKeySound('char');
+        showToast(state.sound ? 'Key Sound On' : 'Muted');
+        focusPhysicalInput();
+      });
+
+      // =========================================================
+      // 9. SAVED NOTES DRAWER & EXPORT PNG/TXT
+      // =========================================================
+      const notesModal = document.getElementById('notesModal');
+      const exportModal = document.getElementById('exportModal');
+
+      function createFreshSheet() {
+        const pageNum = state.notes.length + 1;
+        const newNote = {
+          id: 'note_' + Date.now(),
+          title: `Page ${pageNum}`,
+          text: '',
+          updatedAt: Date.now()
+        };
+        state.notes.unshift(newNote);
+        state.activeId = newNote.id;
+        playKeySound('return');
+        renderEditor('', 0, 0, false);
+        notesModal.classList.remove('open');
+        showToast('Fresh Paper Loaded');
+        focusPhysicalInput();
+      }
+
+      function renderNotesList() {
+        const listEl = document.getElementById('notesList');
+        listEl.innerHTML = '';
+        state.notes.forEach((n) => {
+          const item = document.createElement('div');
+          item.className = 'note-item' + (n.id === state.activeId ? ' active-note' : '');
+          const heading = (n.title && n.title.trim()) || (n.text || '').trim().split('\n')[0] || 'Blank sheet...';
+          const dateStr = new Date(n.updatedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+          item.innerHTML = `
+            <div>
+              <div class="note-preview">${escapeHtml(heading)}</div>
+              <div class="note-meta">${dateStr} · ${n.text.length.toLocaleString()} chars</div>
+            </div>
+          `;
+
+          if (state.notes.length > 1) {
+            const delBtn = document.createElement('button');
+            delBtn.className = 'delete-note-btn';
+            delBtn.textContent = 'Delete';
+            delBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              state.notes = state.notes.filter(x => x.id !== n.id);
+              if (state.activeId === n.id) {
+                state.activeId = state.notes[0].id;
+                renderEditor(state.notes[0].text, state.notes[0].text.length, state.notes[0].text.length, false);
+              }
+              saveNotes();
+              renderNotesList();
+            });
+            item.appendChild(delBtn);
+          }
+
+          item.addEventListener('click', () => {
+            state.activeId = n.id;
+            renderEditor(n.text, n.text.length, n.text.length, false);
+            saveNotes();
+            notesModal.classList.remove('open');
+            focusPhysicalInput();
+          });
+
+          listEl.appendChild(item);
+        });
+      }
+
+      function escapeHtml(str) {
+        return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+      }
+
+      document.getElementById('btnNotesDrawer').addEventListener('click', () => {
+        renderNotesList();
+        notesModal.classList.add('open');
+      });
+      noteBadge.addEventListener('click', () => {
+        renderNotesList();
+        notesModal.classList.add('open');
+      });
+      document.getElementById('btnPcNewSheet').addEventListener('click', createFreshSheet);
+      document.getElementById('btnNewNote').addEventListener('click', createFreshSheet);
+
+      document.getElementById('closeNotesModal').addEventListener('click', () => notesModal.classList.remove('open'));
+      notesModal.addEventListener('click', (e) => { if (e.target === notesModal) notesModal.classList.remove('open'); });
+
+      document.getElementById('btnExportModal').addEventListener('click', () => exportModal.classList.add('open'));
+      document.getElementById('closeExportModal').addEventListener('click', () => exportModal.classList.remove('open'));
+      exportModal.addEventListener('click', (e) => { if (e.target === exportModal) exportModal.classList.remove('open'); });
+
+      document.getElementById('btnRainToggle').addEventListener('click', toggleRainAmbience);
+
+      document.getElementById('btnCopyText').addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(getActiveNote().text);
+          showToast('Copied to Clipboard');
+        } catch (e) {
+          showToast('Copy Ready');
+        }
+        exportModal.classList.remove('open');
+      });
+
+      document.getElementById('btnDownloadTxt').addEventListener('click', () => {
+        const note = getActiveNote();
+        const slug = (note.title || 'cozy-writer').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'note';
+        const blob = new Blob([note.text], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${slug}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+        exportModal.classList.remove('open');
+        showToast('Downloaded .TXT');
+      });
+
+      document.getElementById('btnDownloadPng').addEventListener('click', () => {
+        const note = getActiveNote();
+        const slug = (note.title || 'cozy-writer').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'note';
+        const canvas = document.createElement('canvas');
+        const scale = 2;
+        const W = 760;
+        const H = 960;
+        canvas.width = W * scale;
+        canvas.height = H * scale;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(scale, scale);
+
+        ctx.fillStyle = state.nightMode ? (state.warmCozy ? '#140d09' : '#110d10') : '#1b1619';
+        ctx.fillRect(0, 0, W, H);
+
+        const px = 64, py = 74, pw = W - 128, ph = H - 148, r = 54;
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(px + r, py);
+        ctx.lineTo(px + pw - r, py);
+        ctx.quadraticCurveTo(px + pw, py, px + pw, py + r);
+        ctx.lineTo(px + pw, py + ph);
+        ctx.lineTo(px, py + ph);
+        ctx.lineTo(px, py + r);
+        ctx.quadraticCurveTo(px, py, px + r, py);
+        ctx.closePath();
+
+        const cs = getComputedStyle(document.body);
+        ctx.fillStyle = cs.getPropertyValue('--paper-bg').trim() || '#ebd2de';
+        ctx.fill();
+        ctx.clip();
+
+        if (state.nightMode) {
+          const grad = ctx.createRadialGradient(W * 0.56, py + ph - 40, 20, W * 0.52, py + ph * 0.48, 420);
+          if (state.warmCozy) {
+            grad.addColorStop(0, 'rgba(255, 226, 178, 0.78)');
+            grad.addColorStop(0.55, 'rgba(255, 176, 92, 0.28)');
+            grad.addColorStop(1, 'rgba(22, 13, 8, 0)');
+          } else {
+            grad.addColorStop(0, 'rgba(255, 232, 240, 0.72)');
+            grad.addColorStop(0.55, 'rgba(255, 198, 218, 0.24)');
+            grad.addColorStop(1, 'rgba(20, 14, 18, 0)');
+          }
+          ctx.fillStyle = grad;
+          ctx.fillRect(px, py, pw, ph);
+        }
+
+        ctx.fillStyle = state.nightMode ? 'rgba(15,10,12,0.22)' : 'rgba(60,40,50,0.14)';
+        for (let i = 0; i < 160; i++) {
+          const sx = px + ((i * 73) % pw);
+          const sy = py + ((i * 137) % ph);
+          ctx.beginPath();
+          ctx.arc(sx, sy, (i % 3) * 0.45 + 0.6, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.fillStyle = state.nightMode ? (state.warmCozy ? '#ffedd4' : '#f7e5ed') : '#2b1e25';
+        ctx.font = `400 26px ${FONTS[state.fontIndex].css}`;
+        const rawText = note.text || note.title || 'Cozy writer';
+        const maxTextW = pw - 110;
+        const paragraphs = rawText.split('\n');
+        let cursorY = py + 105;
+        const lineH = 42;
+
+        paragraphs.forEach(para => {
+          const words = para.split(' ');
+          let line = '';
+          words.forEach(word => {
+            const test = line ? line + ' ' + word : word;
+            if (ctx.measureText(test).width > maxTextW && line) {
+              ctx.fillText(line, px + 55, cursorY);
+              cursorY += lineH;
+              line = word;
+            } else {
+              line = test;
+            }
+          });
+          ctx.fillText(line, px + 55, cursorY);
+          cursorY += lineH;
+        });
+
+        ctx.restore();
+
+        ctx.fillStyle = '#231d20';
+        ctx.fillRect(px - 14, py + ph - 12, pw + 28, 14);
+        ctx.fillStyle = state.nightMode ? (state.warmCozy ? '#5c4130' : '#4a3d44') : '#e6cad8';
+        ctx.beginPath();
+        ctx.roundRect(W * 0.56 - 52, py + ph - 20, 104, 30, 15);
+        ctx.fill();
+
+        const link = document.createElement('a');
+        link.download = `${slug}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+        exportModal.classList.remove('open');
+        showToast('Saved PNG Card');
+      });
+
+      // =========================================================
+      // 10. INITIALIZATION & RESPONSIVE RESIZE SYNC
+      // =========================================================
+      window.addEventListener('resize', () => {
+        applySizeScale();
+        buildKeyboard(false);
+        updateCounter(getActiveNote().text);
+        requestAnimationFrame(updateCarriageTarget);
+      });
+
+      loadNotes();
+      applySizeScale();
+      buildKeyboard(true);
+      const initialText = getActiveNote().text;
+      renderEditor(initialText, initialText.length, initialText.length, false);
+      setTimeout(() => {
+        updateCarriageTarget();
+        currentCarriageX = targetCarriageX;
+      }, 80);
+    })();
+  </script>
+</body>
+</html>
