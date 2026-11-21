@@ -1,1 +1,1 @@
-# cozywrite.github.io
+# Cozy Writer
